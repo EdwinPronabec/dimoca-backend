@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pymysql
+python-dotenv
+cryptography
+python-jose[cryptography]
+python-multipart
+passlib[bcrypt]
+bcrypt==4.0.1

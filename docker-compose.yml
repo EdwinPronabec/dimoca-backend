@@ -1,0 +1,32 @@
+services:
+  # 1. Base de Datos (Igual que antes, pero conectada al .env)
+  db:
+    image: mysql:8.0
+    container_name: ufox_mysql_db
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+    # Le decimos que use el archivo .env para llenar las variables de arriba
+    env_file:
+      - .env
+
+  # 2. Tu API FastAPI
+  api:
+    build: .
+    container_name: ufox_backend_api
+    ports:
+      - "${SERVER_PORT}:8000"
+    volumes:
+      - ./app:/app/app
+    depends_on:
+      - db
+    env_file:
+      - .env
+
+volumes:
+  db_data:
